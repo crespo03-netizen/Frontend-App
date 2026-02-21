@@ -7,6 +7,8 @@ export default defineNuxtConfig({
     "nuxt-auth-sanctum",
     "nuxt-phosphor-icons",
     "@nuxtjs/google-fonts",
+    "@nuxt/image",
+    "@formkit/auto-animate/nuxt",
   ],
   css: ["~/assets/css/main.css"],
   devtools: { enabled: true },
@@ -22,6 +24,7 @@ export default defineNuxtConfig({
     },
     redirect: {
       onLogin: "/",
+      onLogout: "/login",
     },
   },
   typescript: {
