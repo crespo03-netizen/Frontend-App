@@ -2,9 +2,12 @@
 import type { User } from "~~/shared/types/User";
 import DeleteProfilePhoto from "./DeleteProfilePhoto.vue";
 
-defineProps<{
-  user: User;
-}>();
+defineProps({
+  user: {
+    type: Object as PropType<User>,
+    required: true,
+  },
+});
 
 const selectedFile = ref<File>();
 const formData = new FormData();
@@ -55,7 +58,7 @@ watch(inProgress, (value) => {
 <template>
   <UPopover v-model:open="open">
     <UButton
-      label="Edit photo"
+      label="Edit avatar"
       variant="solid"
       color="neutral"
       icon="i-ph-pencil-simple"
@@ -63,8 +66,13 @@ watch(inProgress, (value) => {
 
     <template #content>
       <UCard>
-        <div class="flex flex-col gap-2 items-center justify-center">
-          <UButton icon="i-ph-upload" color="neutral" block>
+        <div class="flex flex-col items-center justify-center gap-2">
+          <UButton
+            icon="i-ph-upload"
+            color="neutral"
+            block
+            :loading="inProgress"
+          >
             <template #default>
               <label for="upload-photo"> Upload a photo </label>
               <input

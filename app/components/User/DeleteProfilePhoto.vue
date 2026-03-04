@@ -33,6 +33,7 @@ watch(inProgress, (value) => {
     icon="i-ph-trash"
     @click="submit()"
     block
+    :loading="inProgress"
   />
 </template>
 

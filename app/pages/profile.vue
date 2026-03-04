@@ -59,19 +59,19 @@ const { submit, inProgress } = useSubmit(
 
 <template>
   <UContainer v-if="user">
-    <div class="flex flex-col justify-center items-center gap-8">
-      <p class="font-semibold text-xl">Update profile</p>
-      <div class="flex flex-col items-center gap-2 lg:relative">
+    <div class="flex flex-col items-center justify-center gap-8">
+      <p class="text-xl font-semibold">Update profile</p>
+      <div class="relative flex flex-col items-center gap-2">
         <div
           v-if="uploadInProgress"
-          class="size-48 lg:size-60 rounded-full bg-gray-200 flex flex-col items-center justify-center relative"
+          class="relative flex size-48 flex-col items-center justify-center rounded-full bg-gray-200 lg:size-60"
         >
           <Icon name="i-ph-circle-notch" class="size-30 animate-spin" />
         </div>
         <NuxtImg
           v-if="user.profile_photo_url && !uploadInProgress"
           :src="user.profile_photo_url"
-          class="size-48 lg:size-60 rounded-full object-cover relative"
+          class="relative size-48 rounded-full object-cover lg:size-60"
         />
 
         <DefaultProfileAvatar
@@ -82,18 +82,18 @@ const { submit, inProgress } = useSubmit(
 
         <UploadProfilePhoto
           :user="user"
-          class="lg:absolute lg:bottom-5 lg:-left-2"
+          class="absolute bottom-5 -left-2"
           @in-progress="handleInProgress($event)"
           @photo-uploaded="handlePhotoUploaded($event)"
         />
       </div>
       <UForm
-        class="max-w-sm container"
+        class="container max-w-sm"
         :schema="schema"
         :state="state"
         @submit="submit()"
       >
-        <div class="w-full flex flex-col gap-4">
+        <div class="flex w-full flex-col gap-4">
           <UFormField label="Full name" class="w-full" name="name">
             <UInput
               v-model="state.name"

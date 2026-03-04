@@ -13,7 +13,7 @@ const schema = v.object({
   email: v.pipe(
     v.string(),
     v.email("Invalid email"),
-    v.nonEmpty("Cannot be empty")
+    v.nonEmpty("Cannot be empty"),
   ),
   password: v.pipe(v.string(), v.nonEmpty("Cannot be empty")),
 });
@@ -25,6 +25,7 @@ const { submit, inProgress } = useSubmit(() => login(state), {
 
     toast.add({
       title: "Success login",
+      description: "You have been logged in successfully.",
       color: "success",
     });
   },
@@ -33,8 +34,8 @@ const { submit, inProgress } = useSubmit(() => login(state), {
 
 <template>
   <UForm :schema="schema" :state="state" @submit="submit()" class="w-full">
-    <UContainer class="flex flex-col justify-center items-center min-h-screen">
-      <div class="flex flex-col justify-center gap-5 p-2 max-w-sm w-full">
+    <UContainer class="flex min-h-screen flex-col items-center justify-center">
+      <div class="flex w-full max-w-sm flex-col justify-center gap-5 p-2">
         <div class="flex flex-col items-center">
           <h1 class="text-2xl font-extrabold tracking-[0.2em] uppercase">
             Cresflow
@@ -70,9 +71,9 @@ const { submit, inProgress } = useSubmit(() => login(state), {
           :loading="inProgress"
         />
 
-        <div class="text-center mt-5">
+        <div class="mt-5 text-center">
           <NuxtLink to="/register">
-            <p class="text-black font-bold hover:underline underline-offset-4">
+            <p class="font-bold text-black underline-offset-4 hover:underline">
               Create Account
             </p>
           </NuxtLink>

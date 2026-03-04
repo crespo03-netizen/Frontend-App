@@ -36,7 +36,7 @@ watch(
               />
               <DefaultProfileAvatar v-else :name="user.name" />
             </div>
-            <div class="flex flex-col w-full">
+            <div class="flex w-full flex-col">
               <p class="text-md font-bold">{{ user.name }}</p>
               <p class="text-sm">{{ user.email }}</p>
             </div>
