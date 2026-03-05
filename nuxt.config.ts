@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     fonts: false,
   },
   sanctum: {
-    baseUrl: "http://localhost:8000",
+    // baseUrl: "http://localhost:8000",
+    baseUrl: "https://backend-app-ohos.onrender.com",
     endpoints: {
       user: "/api/user",
       login: "/login",
