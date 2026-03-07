@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   },
   sanctum: {
     // baseUrl: "http://localhost:8000",
-    baseUrl: "https://backend-app-ohos.onrender.com",
+    baseUrl: "https://api.cresapp.com",
     endpoints: {
       user: "/api/user",
       login: "/login",
