@@ -45,6 +45,13 @@ const { submit, inProgress } = useSubmit(
 
       navigateTo("/login");
     },
+    onError: () => {
+      toast.add({
+        title: "Register failed",
+        description: "An error occurred while creating your account.",
+        color: "error",
+      });
+    },
   },
 );
 </script>

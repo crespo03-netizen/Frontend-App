@@ -29,6 +29,13 @@ const { submit, inProgress } = useSubmit(() => login(state), {
       color: "success",
     });
   },
+  onError: () => {
+    toast.add({
+      title: "Login failed",
+      description: "Invalid email or password.",
+      color: "error",
+    });
+  },
 });
 </script>
 

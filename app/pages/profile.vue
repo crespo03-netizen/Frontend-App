@@ -78,6 +78,7 @@ const { submit, inProgress } = useSubmit(
           v-if="!user.profile_photo_url && !uploadInProgress"
           :name="user.name"
           for-page
+          :size="48"
         />
 
         <UploadProfilePhoto

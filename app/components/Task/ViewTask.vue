@@ -91,6 +91,13 @@ const { submit, inProgress } = useSubmit(
         color: "success",
       });
     },
+    onError() {
+      toast.add({
+        title: "Error",
+        description: "An error occurred while updating the task.",
+        color: "error",
+      });
+    },
   },
 );
 </script>

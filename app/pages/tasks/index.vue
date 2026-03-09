@@ -39,19 +39,26 @@ const handleTaskDeleted = (value: Task) => {
         <CreateTask @task-created="handleTaskCreated($event)" />
       </div>
 
-      <Transition>
-        <div
-          v-if="tasks && user"
-          class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <ViewTask
-            v-for="task in tasks"
-            :task="task"
-            :user="user"
-            @task-deleted="handleTaskDeleted($event)"
-          />
-        </div>
-      </Transition>
+      <div
+        v-if="tasks && user"
+        class="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <ViewTask
+          v-for="task in tasks"
+          :task="task"
+          :user="user"
+          @task-deleted="handleTaskDeleted($event)"
+        />
+      </div>
+
+      <div
+        v-if="tasks?.length === 0"
+        class="flex w-full flex-col items-center justify-between"
+      >
+        <p class="text-lg font-semibold lg:text-2xl">
+          You have not created any tasks yet.
+        </p>
+      </div>
 
       <div
         v-if="pending"

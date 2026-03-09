@@ -38,6 +38,13 @@ const { submit, inProgress } = useSubmit(
         color: "success",
       });
     },
+    onError: () => {
+      toast.add({
+        title: "Error",
+        description: "An error occurred while uploading your photo.",
+        color: "error",
+      });
+    },
   },
 );
 

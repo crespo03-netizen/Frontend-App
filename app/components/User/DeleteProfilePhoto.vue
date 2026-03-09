@@ -18,6 +18,13 @@ const { submit, inProgress } = useSubmit(
         color: "success",
       });
     },
+    onError: () => {
+      toast.add({
+        title: "Error",
+        description: "An error occurred while deleting your photo.",
+        color: "error",
+      });
+    },
   },
 );
 
