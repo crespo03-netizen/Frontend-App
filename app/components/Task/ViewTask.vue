@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import type { Task } from "~~/shared/types/Task";
 import DeleteTask from "./DeleteTask.vue";
+import { createReusableTemplate, useMediaQuery } from "@vueuse/core";
 
 const props = defineProps({
   task: {
@@ -63,12 +65,19 @@ const priority = ref([
 const emit = defineEmits(["task-deleted"]);
 const sanctumClient = useSanctumClient();
 const toast = useToast();
+const open = ref(false);
+
+const [DefineFormTemplate, ReuseFormTemplate] = createReusableTemplate();
+const isDesktop = useMediaQuery("(min-width: 768px)");
 
 const state = ref({
   description: props.task.description,
 });
 
-const open = ref(false);
+const handleDeletedTask = (value: Task) => {
+  emit("task-deleted", value);
+  open.value = false;
+};
 
 const { submit, inProgress } = useSubmit(
   () =>
@@ -103,61 +112,87 @@ const { submit, inProgress } = useSubmit(
 </script>
 
 <template>
-  <USlideover v-model:open="open">
+  <DefineFormTemplate>
+    <div class="flex flex-col justify-center gap-5 p-2">
+      <div class="flex w-full items-center justify-between gap-2">
+        <div
+          :class="
+            priorityClasses.find((style) => style.value === task.priority)
+              ?.class
+          "
+          class="rounded-md p-2"
+        >
+          <p
+            :class="
+              priorityClasses.find((style) => style.value === task.priority)
+                ?.text
+            "
+            class="text-xs font-bold uppercase"
+          >
+            {{ task.priority }} priority
+          </p>
+        </div>
+
+        <div
+          class="flex items-center justify-center gap-1 rounded-md bg-black p-2"
+        >
+          <Icon
+            :name="
+              statusClasses.find((icon) => icon.value === task.status)?.icon ||
+              'i-ph-circle'
+            "
+            class="size-4 text-white"
+          />
+          <p class="text-xs font-bold text-white uppercase">
+            {{ task.status }}
+          </p>
+        </div>
+      </div>
+
+      <UFormField label="Description">
+        <UTextarea
+          v-model="task.description"
+          class="w-full"
+          :rows="isDesktop ? 8 : 12"
+          autoresize
+        />
+      </UFormField>
+
+      <UFormField label="Priority" class="w-full">
+        <USelect v-model="task.priority" :items="priority" class="w-full" />
+      </UFormField>
+    </div>
+  </DefineFormTemplate>
+
+  <UModal v-if="isDesktop" v-model:open="open" :title="task.name">
     <TaskItemList :task="task" :user="user" />
 
     <template #body>
-      <div class="flex flex-col justify-center gap-5 p-2">
-        <p class="text-xl font-bold">{{ task.name }}</p>
+      <ReuseFormTemplate />
+    </template>
 
-        <div class="flex w-full items-center justify-between gap-2">
-          <div
-            :class="
-              priorityClasses.find((style) => style.value === task.priority)
-                ?.class
-            "
-            class="rounded-md p-2"
-          >
-            <p
-              :class="
-                priorityClasses.find((style) => style.value === task.priority)
-                  ?.text
-              "
-              class="text-xs font-bold uppercase"
-            >
-              {{ task.priority }} priority
-            </p>
-          </div>
+    <template #footer>
+      <div class="flex w-full items-center justify-center gap-2">
+        <UButton
+          icon="i-ph-floppy-disk"
+          label="Save changes"
+          color="secondary"
+          variant="soft"
+          block
+          @click="submit()"
+          :loading="inProgress"
+        />
 
-          <div
-            class="flex items-center justify-center gap-1 rounded-md bg-black p-2"
-          >
-            <Icon
-              :name="
-                statusClasses.find((icon) => icon.value === task.status)
-                  ?.icon || 'i-ph-circle'
-              "
-              class="size-4 text-white"
-            />
-            <p class="text-xs font-bold text-white uppercase">
-              {{ task.status }}
-            </p>
-          </div>
-        </div>
-
-        <UFormField label="Description">
-          <UTextarea
-            v-model="task.description"
-            class="w-full"
-            :rows="20"
-            autoresize
-          />
-        </UFormField>
-
-        <UFormField label="Priority" class="w-full">
-          <USelect v-model="task.priority" :items="priority" class="w-full" />
-        </UFormField>
+        <DeleteTask :task="task" @task-deleted="handleDeletedTask($event)" />
       </div>
+    </template>
+  </UModal>
+
+  <UDrawer v-else v-model:open="open" :title="task.name">
+    <TaskItemList :task="task" :user="user" />
+
+    <template #body>
+      <ReuseFormTemplate />
     </template>
 
     <template #footer>
@@ -175,7 +210,7 @@ const { submit, inProgress } = useSubmit(
         <DeleteTask :task="task" @task-deleted="emit('task-deleted', $event)" />
       </div>
     </template>
-  </USlideover>
+  </UDrawer>
 </template>
 
 <style></style>

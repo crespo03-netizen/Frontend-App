@@ -31,6 +31,7 @@ const { submit, inProgress } = useSubmit(
       open.value = false;
       state.description = "";
       state.name = "";
+      prioritySelected.value = "medium";
 
       toast.add({
         title: "Task created",
